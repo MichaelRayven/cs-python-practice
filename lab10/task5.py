@@ -4,14 +4,19 @@ dir = os.path.dirname(__file__)
 
 
 user_content = input()
-with open(os.path.join(dir, "my_file.txt"), "w", encoding="utf8") as file:
-    lines = file.readlines()
-    middle = len(lines) // 2
-    
-    if len(lines) > 2:
-        file.write("\n".join(lines[0:middle]))
-        file.write("\n" + user_content)
-        file.write("\n" + "\n".join(lines[middle:]))
-    else:
-        file.write("\n".join(lines))
-        file.write("\n" + user_content)
+
+FILE_NAME = "my_file.txt"
+file_path = os.path.join(dir, FILE_NAME)
+
+if os.path.exists(file_path):
+    lines = []
+    with open(file_path, "r", encoding="utf8") as file:
+        lines = file.readlines()
+        print(lines)
+    with open(file_path, "w", encoding="utf8") as file:
+        middle = len(lines) // 2
+        lines.insert(middle, user_content + "\n")
+        file.write("".join(lines))
+else:
+    with open(file_path, "w", encoding="utf8") as file:
+        file.write(user_content)
